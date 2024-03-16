@@ -1,19 +1,12 @@
 package dev.tildejustin.planifolia.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import dev.tildejustin.planifolia.DoubleSliderCallbacksGamma;
 import net.minecraft.client.option.*;
-import net.minecraft.text.Text;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(GameOptions.class)
 public abstract class GameOptionsMixin {
-    @Shadow
-    public static Text getGenericValueText(Text prefix, Text value) {
-        return null;
-    }
-
     // 1.19-1.19.2
     @SuppressWarnings({"InvalidInjectorMethodSignature", "MixinAnnotationTarget", "UnresolvedMixinReference"})
     @Group(min = 1, max = 1)
@@ -53,13 +46,5 @@ public abstract class GameOptionsMixin {
     )
     private SimpleOption.Callbacks<?> replaceGammaSliderCallback(SimpleOption.Callbacks<?> original) {
         return DoubleSliderCallbacksGamma.INSTANCE;
-    }
-
-    @WrapOperation(method = "method_42492", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;getGenericValueText(Lnet/minecraft/text/Text;I)Lnet/minecraft/text/Text;"))
-    private static Text addMaxGammaText(Text prefix, int value, Operation<Text> original) {
-        if (value == 500) {
-            return getGenericValueText(prefix, Text.translatable("options.ao.max"));
-        }
-        return original.call(prefix, value);
     }
 }
