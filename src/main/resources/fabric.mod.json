@@ -17,8 +17,8 @@
   "mixins": [
     "planifolia.mixins.json"
   ],
-  "depends": {
-    "sodium": "*"
+  "suggests": {
+    "sodium": ">=0.4"
   },
   "accessWidener": "planifolia.accesswidener"
 }
