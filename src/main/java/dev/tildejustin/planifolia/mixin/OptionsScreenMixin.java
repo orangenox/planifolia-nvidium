@@ -29,4 +29,12 @@ public abstract class OptionsScreenMixin extends Screen {
     private Object openVanillaMenu2(Object original) {
         return MinecraftClient.getInstance().world != null ? new VideoOptionsScreen(this, this.client.options) : original;
     }
+
+    @Dynamic
+    @Group
+    @TargetHandler(mixin = "me.jellysquid.mods.sodium.mixin.features.options.MixinOptionsScreen", name = "open")
+    @ModifyArg(method = "@MixinSquared:Handler", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreen(Lnet/minecraft/client/gui/screen/Screen;)V"), require = 0)
+    private Screen openVanillaMenu3(Screen original) {
+        return MinecraftClient.getInstance().world != null ? new VideoOptionsScreen(this, this.client.options) : original;
+    }
 }

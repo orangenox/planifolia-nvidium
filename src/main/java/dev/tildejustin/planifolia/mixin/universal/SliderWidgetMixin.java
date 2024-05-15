@@ -17,8 +17,10 @@ public abstract class SliderWidgetMixin {
                     // class_332 -> MatrixStack
                     /* 1.20-1.20.2 */ "Lnet/minecraft/class_357;method_48579(Lnet/minecraft/class_332;IIF)V",
                     // class_4587 -> DrawContext
-                    /* 1.19-1.19.4 */ "Lnet/minecraft/class_357;method_48579(Lnet/minecraft/class_4587;IIF)V"
-            }, at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/widget/SliderWidget;value:D"), require = 1, allow = 1
+                    /* 1.19.4 */ "Lnet/minecraft/class_357;method_48579(Lnet/minecraft/class_4587;IIF)V",
+                    // method_25353 -> renderBackground
+                    /* 1.19-1.19.3 */ "Lnet/minecraft/class_357;method_25353(Lnet/minecraft/class_4587;Lnet/minecraft/class_310;II)V"
+            }, at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/widget/SliderWidget;value:D"), require = 1, allow = 2
     )
     private double keepSliderInBounds(double original) {
         return MathHelper.clamp(original, 0, 1);
