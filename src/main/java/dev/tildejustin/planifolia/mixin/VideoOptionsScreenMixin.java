@@ -13,11 +13,16 @@ import java.util.Arrays;
 public abstract class VideoOptionsScreenMixin {
     @Inject(method = "getOptions", at = @At("TAIL"), cancellable = true)
     private static void addEntityCullingOption(GameOptions gameOptions, CallbackInfoReturnable<SimpleOption<?>[]> cir) {
-        SimpleOption<?>[] newOptions = Arrays.copyOf(cir.getReturnValue(), cir.getReturnValue().length + 1);
-        newOptions[newOptions.length - 1] = SimpleOption.ofBoolean(
+        SimpleOption<?>[] newOptions = Arrays.copyOf(cir.getReturnValue(), cir.getReturnValue().length + 2);
+        newOptions[newOptions.length - 2] = SimpleOption.ofBoolean(
                 "Entity Culling",
                 SodiumClientMod.options().performance.useEntityCulling,
-                entityCulling -> SodiumClientMod.options().performance.useEntityCulling = entityCulling
+                value -> SodiumClientMod.options().performance.useEntityCulling = value
+        );
+        newOptions[newOptions.length - 1] = SimpleOption.ofBoolean(
+                "Fog Occlusion",
+                SodiumClientMod.options().performance.useFogOcclusion,
+                value -> SodiumClientMod.options().performance.useFogOcclusion = value
         );
         cir.setReturnValue(newOptions);
     }
