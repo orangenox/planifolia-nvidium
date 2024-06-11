@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.option.*;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = OptionsScreen.class, priority = 1005)
 public abstract class OptionsScreenMixin extends Screen {
@@ -25,9 +26,11 @@ public abstract class OptionsScreenMixin extends Screen {
     @Dynamic
     @Group
     @TargetHandler(mixin = "me.jellysquid.mods.sodium.mixin.features.gui.hooks.settings.OptionsScreenMixin", name = "open")
-    @ModifyArg(method = "@MixinSquared:Handler", at = @At(value = "INVOKE", target = "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;setReturnValue(Ljava/lang/Object;)V"), require = 0)
-    private Object openVanillaMenu2(Object original) {
-        return MinecraftClient.getInstance().world != null ? new VideoOptionsScreen(this, this.client.options) : original;
+    @Inject(method = "@MixinSquared:Handler", at = @At("HEAD"), require = 0, cancellable = true)
+    private void openVanillaMenu2(CallbackInfo ci) {
+        if (MinecraftClient.getInstance().world != null) {
+            ci.cancel();
+        }
     }
 
     @Dynamic
